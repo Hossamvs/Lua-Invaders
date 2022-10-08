@@ -6,9 +6,16 @@ function love.load()
     Player:load()
     Enemy:load()
     enemies_controller.image= love.graphics.newImage('images/enemy.png')
-    enemies_controller:spawnEnemy(0,0)
-	enemies_controller:spawnEnemy(100,0)
+    enemies_controller:spawnEnemies(5, 11)
+end
 
+function enemies_controller:spawnEnemies(row, column)
+	offSetX = love.graphics.getWidth() / 2 - (column * 75) / 2
+	for i = 0, column-1 do
+		for j = 0, row-1 do
+			enemies_controller:spawnEnemy(offSetX + i * 75, j * 75);
+		end
+	end
 end
 
 function enemies_controller:spawnEnemy(x,y)
