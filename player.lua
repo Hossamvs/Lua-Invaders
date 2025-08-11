@@ -1,3 +1,5 @@
+local Bullet = require("bullet")
+
 Player = {}          
 
 function Player:load()
@@ -13,7 +15,7 @@ function Player:load()
     self.speed = 200
 
 
-    self.bullets = {}
+    
 
 end
 
@@ -34,22 +36,11 @@ function Player:update(dt)
         self:shoot()
     end
 
-    for i, bullet in pairs(self.bullets) do
-        bullet.y = bullet.y + bullet.speed * dt
-        if bullet.y > height then
-            table.remove(self.bullets, i)
-        end
-    end
+    Bullet.updateAll(dt)
 end
 
 function Player:shoot()
-    bullet = {}
-    bullet.x = self.x + self.width/2
-    bullet.y = self.y
-    bullet.width = 5
-    bullet.height = 5
-    bullet.speed = -500
-    table.insert(self.bullets, bullet)
+    Bullet.spawn(self.x + self.width/2, self.y)
 end
 
 function Player:draw()
@@ -57,7 +48,5 @@ function Player:draw()
     --love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 
     --draw bullets
-    for i, bullet in pairs(self.bullets) do
-        love.graphics.rectangle("fill", bullet.x, bullet.y, bullet.width, bullet.height)
-    end
+    Bullet.drawAll()
 end
